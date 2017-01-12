@@ -17,6 +17,7 @@
 
     <modules>
         <module>libs</module>
+        <module>services</module>
     </modules>
 
     <dependencyManagement>
@@ -30,6 +31,16 @@
             <dependency>
                 <groupId>com.example.webservices.libs</groupId>
                 <artifactId>translation-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.example.webservices.utils</groupId>
+                <artifactId>rest-utils-jersey</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.example.webservices.utils</groupId>
+                <artifactId>rest-utils-resteasy</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
