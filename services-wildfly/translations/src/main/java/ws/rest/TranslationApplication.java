@@ -1,4 +1,8 @@
 package ws.rest;
 
-public class TranslationApplication {
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
+
+@ApplicationPath("/")
+public class TranslationApplication extends Application {
 }
