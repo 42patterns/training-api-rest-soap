@@ -17,7 +17,7 @@
 
     <modules>
         <module>libs</module>
-        <module>services</module>
+        <module>services-wildfly</module>
     </modules>
 
     <dependencyManagement>
