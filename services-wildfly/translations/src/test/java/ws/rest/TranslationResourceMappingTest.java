@@ -10,6 +10,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import ws.libs.dictionary.DictionaryWord;
+import ws.rest.utils.CustomObjectMapper;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
@@ -44,6 +45,7 @@ public class TranslationResourceMappingTest {
         final String word = "computer";
 
         DictionaryWord dictionaryWord = ClientBuilder.newClient()
+                .register(CustomObjectMapper.class)
                 .target(url.toURI()).path("translate").path(word).path("first")
                 .request().header("X-Dictionary", "dict").get(DictionaryWord.class);
 
@@ -69,9 +71,11 @@ public class TranslationResourceMappingTest {
         final String word = "home";
 
         List<DictionaryWord> dictionaryWords = ClientBuilder.newClient()
+                .register(CustomObjectMapper.class)
                 .target(url.toURI()).path("translate").path(word)
                 .request().header("X-Dictionary", "dict").get(new GenericType<List<DictionaryWord>>() {});
 
         assertThat(dictionaryWords.size(), equalTo(24));
     }
+
 }
