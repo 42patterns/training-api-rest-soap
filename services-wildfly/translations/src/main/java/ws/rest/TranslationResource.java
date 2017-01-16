@@ -5,25 +5,43 @@ import ws.libs.dictionary.DictionaryWord;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-@Path("/translate/{word}")
+@Path("/translate")
+@Produces(MediaType.APPLICATION_JSON)
 public class TranslationResource {
 
     @Inject
     DictionaryClient dictionary;
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{word}")
     public List<DictionaryWord> translations(@PathParam("word") String word) {
         List<DictionaryWord> dictionaryWords = dictionary.allTranslationsFor(word);
         return dictionaryWords;
     }
 
+    @POST
+    @Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<DictionaryWord> batchTranslations(@NotNull List<String> words) {
+        List<DictionaryWord> translations = words.stream()
+                .map(s -> dictionary.firstTranslationFor(s))
+                .flatMap(o -> flatMap(o))
+//                .filter(Optional::isPresent)
+//                .map(Optional::get)
+                .collect(Collectors.toList());
 
+        return translations;
+    }
+
+    private Stream<DictionaryWord> flatMap(Optional<DictionaryWord> o) {
+        return o.map(d -> Stream.of(d)).orElse(Stream.empty());
+    }
 }
