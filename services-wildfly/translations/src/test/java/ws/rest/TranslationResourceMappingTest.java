@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import ws.libs.dictionary.DictionaryWord;
 import ws.rest.utils.CustomObjectMapper;
+import ws.rest.utils.DictionaryWordReader;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
@@ -45,7 +46,7 @@ public class TranslationResourceMappingTest {
         final String word = "computer";
 
         DictionaryWord dictionaryWord = ClientBuilder.newClient()
-                .register(CustomObjectMapper.class)
+                .register(DictionaryWordReader.class)
                 .target(url.toURI()).path("translate").path(word).path("first")
                 .request().header("X-Dictionary", "dict").get(DictionaryWord.class);
 
