@@ -1,12 +1,27 @@
 package ws.rest;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 import ws.libs.dictionary.DictionaryWord;
+import ws.rest.utils.CustomObjectMapper;
+import ws.rest.utils.DictionaryWordReader;
 
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.*;
+import javax.ws.rs.ext.ContextResolver;
+import javax.ws.rs.ext.MessageBodyReader;
+import javax.ws.rs.ext.MessageBodyWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -26,7 +41,7 @@ public class TranslationResourceMappingTest extends JerseyTest {
         final String word = "computer";
 
         DictionaryWord dictionaryWord = target().path("translate").path(word).path("first")
-                //TODO: Register appropriate MessageBodyReader with .register() function
+                .register(DictionaryWordReader.class)
                 .request().header("X-Dictionary", "dict").get(DictionaryWord.class);
 
         assertThat(dictionaryWord.englishWord, equalTo("computer"));
@@ -48,7 +63,7 @@ public class TranslationResourceMappingTest extends JerseyTest {
         final String word = "home";
 
         List<DictionaryWord> dictionaryWords = target().path("translate").path(word)
-                //TODO: Register appropriate MessageBodyReader with .register() function
+                .register(CustomObjectMapper.class)
                 .request().header("X-Dictionary", "dict").get(new GenericType<List<DictionaryWord>>() {
                 });
 
