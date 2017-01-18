@@ -51,8 +51,7 @@ public class ProfanityResourceTest extends JerseyTest {
 
         assertThat(object.getBoolean("containsProfanity"), equalTo(false));
         assertThat(object.getString("input"), equalTo(phrase));
-//        TODO: uncomment this and make the test pass
-//        assertThat(object.containsKey("output"), equalTo(false));
+        assertThat(object.containsKey("output"), equalTo(false));
     }
 
     @Test
