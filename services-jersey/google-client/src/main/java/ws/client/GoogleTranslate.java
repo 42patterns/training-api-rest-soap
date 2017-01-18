@@ -29,7 +29,25 @@ public class GoogleTranslate {
 //                'format': 'text'
 //        }
 
-        throw new IllegalStateException("Not implemented");
+        JsonObject object = Json.createObjectBuilder()
+                .add("q", Json.createArrayBuilder().add(input).add("This is another sentence").build())
+                .add("source", "en")
+                .add("target", "pl")
+                .add("format", "text")
+                .build();
+
+        Client client = ClientBuilder.newClient();
+        String response = client.target("https://translation.googleapis.com/language/translate/v2")
+                .queryParam("key", API_KEY)
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .post(Entity.text(object.toString()), String.class);
+
+
+        JsonArray jsonArray = Json
+                .createReader(new StringReader(response))
+                .readObject()
+                .getJsonObject("data").getJsonArray("translations");
+        return jsonArray.getJsonObject(0).getString("translatedText");
     }
 
 }
