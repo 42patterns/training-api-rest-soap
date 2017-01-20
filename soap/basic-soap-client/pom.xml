@@ -9,13 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example.webservices</groupId>
-    <artifactId>soap</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>apikey-soap-service</module>
-        <module>basic-soap-client</module>
-    </modules>
+    <groupId>com.example.webservices.soap.client</groupId>
+    <artifactId>basic-soap-client</artifactId>
+    <packaging>jar</packaging>
+    <name>soap: ${project.artifactId}</name>
 
 </project>
