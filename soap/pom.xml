@@ -16,6 +16,7 @@
     <modules>
         <module>apikey-soap-service</module>
         <module>basic-soap-client</module>
+        <module>generated-stub-client</module>
     </modules>
 
 </project>
